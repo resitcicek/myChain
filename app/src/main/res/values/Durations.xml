@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="Durations">
+        <item>Select duration</item>
+        <item>7 Days</item>
+        <item>14 Days</item>
+        <item>30 Days</item>
+    </array>
+</resources>

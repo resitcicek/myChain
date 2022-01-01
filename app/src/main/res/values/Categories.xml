@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="Categories">
+        <item>Select a category</item>
+        <item>Hobby</item>
+        <item>Sport</item>
+        <item>Education</item>
+        <item>Behavior</item>
+    </array>
+</resources>
