@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_explore:
                         fragment = new Explore();
                         break;
+                    case R.id.navigation_profile:
+                        fragment = new ProfileFragment();
+                        break;
+
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
 
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   
+
 
 
 }

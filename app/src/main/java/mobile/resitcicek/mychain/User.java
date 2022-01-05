@@ -3,7 +3,17 @@ package mobile.resitcicek.mychain;
 public class User {
     private String username;
     private int ID;
+    private String bio;
     private String password;
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     private String email;
     private String[] followList;
 

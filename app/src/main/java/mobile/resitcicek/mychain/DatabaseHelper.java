@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "mychains2.db";
+    public static final String DATABASE_NAME = "mychains3.db";
     public Cursor randChain;
 
 
@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE user(ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT)");
+        db.execSQL("CREATE TABLE user(ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, bio TEXT)");
         db.execSQL("CREATE TABLE chain(ID INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, reminder INT, private INT, category TEXT, duration TEXT)");
         db.execSQL("CREATE TABLE chainRelation(ID INTEGER PRIMARY KEY AUTOINCREMENT,chainID INTEGER, userID INTEGER)");
     }
@@ -59,6 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("username", username);
         contentValues.put("password", password);
         contentValues.put("email", email);
+        contentValues.put("bio","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
         long result = sqLiteDatabase.insert("user", null, contentValues);
         if(result == -1){
             return false;
@@ -98,29 +99,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-   public ArrayList<Chain> getChains(int userID){
-       SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-       ArrayList<Chain> listChain = new ArrayList<Chain>();
-       //For see all chains
-       //Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation ORDER BY ID DESC", null);
-       Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE userID = ? ORDER BY ID DESC", new String[]{Integer.toString(userID)});
-       while(getUserChains.moveToNext()){
-           Cursor chains = sqLiteDatabase.rawQuery("SELECT * FROM chain WHERE ID = ? ORDER BY ID DESC", new String[]{Integer.toString(getUserChains.getInt(1))});
+    public ArrayList<Chain> getChains(int userID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ArrayList<Chain> listChain = new ArrayList<Chain>();
+        //For see all chains
+        //Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation ORDER BY ID DESC", null);
+        Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE userID = ? ORDER BY ID DESC", new String[]{Integer.toString(userID)});
+        while(getUserChains.moveToNext()){
+            Cursor chains = sqLiteDatabase.rawQuery("SELECT * FROM chain WHERE ID = ? ORDER BY ID DESC", new String[]{Integer.toString(getUserChains.getInt(1))});
 
-           while(chains.moveToNext()){
-               Chain chain = new Chain();
-               chain.setName(chains.getString(1));
-               chain.setDescription(chains.getString(2));
-               chain.setReminder(chains.getInt(3));
-               chain.setPriv(chains.getInt(4));
-               chain.setCategory(chains.getString(5));
-               chain.setDuration(chains.getString(6));
-               listChain.add(chain);
-           }
-       }
+            while(chains.moveToNext()){
+                Chain chain = new Chain();
+                chain.setName(chains.getString(1));
+                chain.setDescription(chains.getString(2));
+                chain.setReminder(chains.getInt(3));
+                chain.setPriv(chains.getInt(4));
+                chain.setCategory(chains.getString(5));
+                chain.setDuration(chains.getString(6));
+                listChain.add(chain);
+            }
+        }
 
-       return listChain;
-   }
+        return listChain;
+    }
+    public int getChainNumber(int userID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ArrayList<Chain> listChain = new ArrayList<Chain>();
+        //For see all chains
+        //Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation ORDER BY ID DESC", null);
+        Cursor getUserChains = sqLiteDatabase.rawQuery("SELECT COUNT(ID) FROM chainRelation WHERE userID = ?", new String[]{Integer.toString(userID)});
+        getUserChains.moveToFirst();
+
+        return(getUserChains.getInt(0));
+    }
+
     public ArrayList<Chain> getRandom(int userID) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         int i = 0;
@@ -129,11 +141,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (listChain.stream().count() < 5) {
 
             randChain = sqLiteDatabase.rawQuery("SELECT * FROM chain ORDER BY RANDOM() LIMIT 1;", null);
-            randChain.moveToFirst();
-            Cursor get = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE userID = ? AND chainID=?", new String[]{Integer.toString(userID), Integer.toString(randChain.getInt(0))});
-            if (get.getCount() < 1) {
-                //while(getUserChains.moveToNext()){
-
+            if(randChain.getCount() > 0) {
+                randChain.moveToFirst();
+                Cursor get = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE userID = ? AND chainID=?", new String[]{Integer.toString(userID), Integer.toString(randChain.getInt(0))});
+                if (get.getCount() < 1) {
+                    //while(getUserChains.moveToNext()){
 
 
                     Chain chain = new Chain();
@@ -145,8 +157,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     chain.setDuration(randChain.getString(6));
                     listChain.add(chain);
 
-                i++;
+                    i++;
+                }
             }
+            else{
+                break;
+            }
+
 
 
 
@@ -174,6 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user.setUsername(cursor.getString(1));
         user.setEmail(cursor.getString(2));
         user.setPassword(cursor.getString(3));
+        user.setBio(cursor.getString(4));
         return user;
     }
 
