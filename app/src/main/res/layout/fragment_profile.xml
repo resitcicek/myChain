@@ -46,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -72,4 +73,31 @@
             android:textColor="#221622"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/twitter"
+        android:layout_width="198dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="#1DA1F2"
+        android:maxWidth="320dp"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_twitter"
+        app:iconGravity="top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/instagram"
+        android:layout_width="198dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:backgroundTint="#E1306C"
+        app:icon="@drawable/ic_instagram"
+        app:iconGravity="top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

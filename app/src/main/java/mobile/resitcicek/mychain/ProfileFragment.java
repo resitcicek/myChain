@@ -1,6 +1,8 @@
 package mobile.resitcicek.mychain;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -63,9 +67,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         TextView user = (TextView) view.findViewById(R.id.user);
         TextView desc = (TextView) view.findViewById(R.id.desc);
         TextView rank = (TextView) view.findViewById(R.id.rank);
+        Button twitterBtn = (Button) view.findViewById(R.id.twitter);
+        Button instaBtn = (Button) view.findViewById(R.id.instagram);
         TextView chainNum = (TextView) view.findViewById(R.id.chainNum);
         user.setText(MainActivity.loggedUser.getUsername());
         desc.setText(MainActivity.loggedUser.getBio());
@@ -88,6 +95,13 @@ public class ProfileFragment extends Fragment {
         }
 
         chainNum.setText(Integer.toString(cNum)+" Chains");
+        twitterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com/"+MainActivity.loggedUser.getTwitter()));
+                startActivity(browserIntent);
+            }
+        });
         return view;
     }
 }

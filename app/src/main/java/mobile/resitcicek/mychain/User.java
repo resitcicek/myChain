@@ -5,6 +5,24 @@ public class User {
     private int ID;
     private String bio;
     private String password;
+    private String insta;
+    private String twitter;
+
+    public String getInsta() {
+        return insta;
+    }
+
+    public void setInsta(String insta) {
+        this.insta = insta;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
 
     public String getBio() {
         return bio;

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "mychains3.db";
+    public static final String DATABASE_NAME = "mychains4.db";
     public Cursor randChain;
 
 
@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE user(ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, bio TEXT)");
+        db.execSQL("CREATE TABLE user(ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, bio TEXT, tw TEXT, insta TEXT)");
         db.execSQL("CREATE TABLE chain(ID INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, reminder INT, private INT, category TEXT, duration TEXT)");
         db.execSQL("CREATE TABLE chainRelation(ID INTEGER PRIMARY KEY AUTOINCREMENT,chainID INTEGER, userID INTEGER)");
         //db.execSQL("CREATE TABLE isDone(ID INTEGER PRIMARY KEY AUTOINCREMENT, relationID TEXT, date TEXT)");
@@ -63,6 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("password", password);
         contentValues.put("email", email);
         contentValues.put("bio","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+        contentValues.put("tw","omercanfanclup");
+        contentValues.put("insta", "null");
         long result = sqLiteDatabase.insert("user", null, contentValues);
         if(result == -1){
             return false;
@@ -195,6 +197,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user.setEmail(cursor.getString(2));
         user.setPassword(cursor.getString(3));
         user.setBio(cursor.getString(4));
+        user.setTwitter(cursor.getString(5));
+        user.setInsta(cursor.getString(6));
         return user;
     }
 
