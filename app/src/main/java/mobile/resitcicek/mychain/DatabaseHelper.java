@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE user(ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, bio TEXT)");
         db.execSQL("CREATE TABLE chain(ID INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, reminder INT, private INT, category TEXT, duration TEXT)");
         db.execSQL("CREATE TABLE chainRelation(ID INTEGER PRIMARY KEY AUTOINCREMENT,chainID INTEGER, userID INTEGER)");
+        //db.execSQL("CREATE TABLE isDone(ID INTEGER PRIMARY KEY AUTOINCREMENT, relationID TEXT, date TEXT)");
     }
 
     @Override
@@ -31,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS user");
         db.execSQL("DROP TABLE IF EXISTS chain");
         db.execSQL("DROP TABLE IF EXISTS id");
+        //db.execSQL("DROP TABLE IF EXISTS isDone");
     }
 
     public boolean reDB(){
@@ -51,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+    //public boolean InsertDone(int chain)
 
 
     public boolean Insert(String username, String password, String email){

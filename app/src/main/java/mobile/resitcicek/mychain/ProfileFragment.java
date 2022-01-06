@@ -75,9 +75,9 @@ public class ProfileFragment extends Fragment {
             rank.setText("Bronze Member");
             rank.setTextColor(Color.parseColor("#CD7F32"));
         }
-        else if(5<cNum && cNum<=10) {//lol
+        else if(cNum>5 && cNum<=10) {//lol
             rank.setText("Silver Member");
-            rank.setTextColor(Color.parseColor(" #C0C0C0"));
+            rank.setTextColor(Color.parseColor("#999a98"));//
         }
         else if(cNum<=15 && cNum>10) {
             rank.setText("Gold Member");

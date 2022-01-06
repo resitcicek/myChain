@@ -9,13 +9,14 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/profilepic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/profilepic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user"
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="4dp"
         android:text="TextView"
         android:textColor="#221622"
@@ -46,6 +48,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/desc">
 
@@ -57,7 +60,7 @@
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="#221622"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/chainNum"
@@ -67,6 +70,6 @@
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="#221622"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
