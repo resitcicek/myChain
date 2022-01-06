@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("email", email);
         contentValues.put("bio","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
         contentValues.put("tw","omercanfanclup");
-        contentValues.put("insta", "null");
+        contentValues.put("insta", "boraktn");
         long result = sqLiteDatabase.insert("user", null, contentValues);
         if(result == -1){
             return false;

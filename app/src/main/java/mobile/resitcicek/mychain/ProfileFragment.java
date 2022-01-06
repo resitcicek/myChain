@@ -29,9 +29,14 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private static int userID;
+    public static User userInfo = new User();
+    public Fragment fragment = null;
 
-    public ProfileFragment() {
+    public ProfileFragment(User user) {
         // Required empty public constructor
+        //DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+        this.userInfo = user;
     }
 
     /**
@@ -44,7 +49,7 @@ public class ProfileFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
+        ProfileFragment fragment = new ProfileFragment(userInfo);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,17 +72,18 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
         TextView user = (TextView) view.findViewById(R.id.user);
         TextView desc = (TextView) view.findViewById(R.id.desc);
         TextView rank = (TextView) view.findViewById(R.id.rank);
         Button twitterBtn = (Button) view.findViewById(R.id.twitter);
         Button instaBtn = (Button) view.findViewById(R.id.instagram);
         TextView chainNum = (TextView) view.findViewById(R.id.chainNum);
-        user.setText(MainActivity.loggedUser.getUsername());
-        desc.setText(MainActivity.loggedUser.getBio());
+        Button edit = (Button) view.findViewById(R.id.editProf);
+        if(userInfo.getID() != MainActivity.loggedUser.getID()) edit.setVisibility(view.GONE);
+        user.setText(userInfo.getUsername());
+        desc.setText(userInfo.getBio());
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-        int cNum = databaseHelper.getChainNumber(MainActivity.loggedUser.getID());
+        int cNum = databaseHelper.getChainNumber(userInfo.getID());
         if(cNum<=5) {
             rank.setText("Bronze Member");
             rank.setTextColor(Color.parseColor("#CD7F32"));
@@ -98,8 +104,26 @@ public class ProfileFragment extends Fragment {
         twitterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com/"+MainActivity.loggedUser.getTwitter()));
-                startActivity(browserIntent);
+                if(userInfo.getTwitter() != "") {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com/" + userInfo.getTwitter()));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+        instaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(userInfo.getInsta() != "") {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.instagram.com/" + userInfo.getInsta()));
+                    startActivity(browserIntent);
+                }
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new EditProfile();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
             }
         });
         return view;

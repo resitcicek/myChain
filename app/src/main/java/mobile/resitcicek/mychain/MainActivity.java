@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new Explore();
                         break;
                     case R.id.navigation_profile:
-                        fragment = new ProfileFragment();
+                        fragment = new ProfileFragment(loggedUser);
                         break;
 
                 }
