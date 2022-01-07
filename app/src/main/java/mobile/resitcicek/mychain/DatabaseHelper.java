@@ -1,4 +1,5 @@
 package mobile.resitcicek.mychain;
+import java.util.List;
 import java.util.Random;
 import android.content.ContentValues;
 import android.content.Context;
@@ -71,6 +72,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
+    public void Update(int ID,String bio, String tw, String insta) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("UPDATE user SET bio=?, tw=?, insta=? WHERE ID=?", new String[] {bio,tw,insta,Integer.toString(ID)});
+    }
+    public ArrayList<User> Search(String search){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ArrayList<User> userList = new ArrayList<User>();
+        Cursor users = sqLiteDatabase.rawQuery("SELECT * FROM user WHERE username LIKE '%'+?+'%'", new String[] {search});
+        User user = new User();
+        while(users.moveToNext()){
+            //username TEXT, password TEXT, email TEXT, bio TEXT, tw TEXT, insta TEXT
+            user.setUsername(users.getString(1));
+            user.setInsta(users.getString(6));
+            user.setBio(users.getString(4));
+            user.setTwitter(users.getString(5));
+            userList.add(user);
+        }
+        return userList;
     }
 
     public long InsertChain(String name, String description, int reminder, int priv, String category, String duration){

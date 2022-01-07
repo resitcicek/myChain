@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class EditProfile extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public Fragment fragment = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,10 +68,23 @@ public class EditProfile extends Fragment {
         EditText desc = (EditText) view.findViewById(R.id.editDesc);
         EditText tw = (EditText) view.findViewById(R.id.editTw);
         EditText insta = (EditText) view.findViewById(R.id.editInsta);
-        desc.setHint(MainActivity.loggedUser.getBio());
-        tw.setHint(MainActivity.loggedUser.getTwitter());
-        insta.setHint(MainActivity.loggedUser.getInsta());
+        Button save = (Button) view.findViewById(R.id.SaveBtn);
+        desc.setText(MainActivity.loggedUser.getBio());
+        tw.setText(MainActivity.loggedUser.getTwitter());
+        insta.setText(MainActivity.loggedUser.getInsta());
         user.setText(MainActivity.loggedUser.getUsername());
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+                databaseHelper.Update(MainActivity.loggedUser.getID(),desc.getText().toString(),tw.getText().toString(),insta.getText().toString());
+                MainActivity.loggedUser.setBio(desc.getText().toString());
+                MainActivity.loggedUser.setTwitter(tw.getText().toString());
+                MainActivity.loggedUser.setInsta(insta.getText().toString());
+                fragment = new ProfileFragment(MainActivity.loggedUser);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+            }
+        });
         return view;
     }
 }
