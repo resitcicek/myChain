@@ -60,13 +60,6 @@ public class SearchAdapter extends BaseAdapter {
         }else {
             medal.setImageResource(R.mipmap.plat_foreground);
         }
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new ProfileFragment(user);
-                //getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
-            }
-        });
         return rowView;
     }
 }

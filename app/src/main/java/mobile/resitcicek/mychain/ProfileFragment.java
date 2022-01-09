@@ -92,15 +92,15 @@ public class ProfileFragment extends Fragment {
         desc.setText(userInfo.getBio());
 
         int cNum = databaseHelper.getChainNumber(userInfo.getID());
-        if(cNum<=5) {
+        if(cNum<=3) {
             rank.setText("Bronze Member");
             rank.setTextColor(Color.parseColor("#CD7F32"));
         }
-        else if(cNum>5 && cNum<=10) {//lol
+        else if(cNum>3 && cNum<=5) {//lol
             rank.setText("Silver Member");
             rank.setTextColor(Color.parseColor("#999a98"));//
         }
-        else if(cNum<=15 && cNum>10) {
+        else if(cNum<=7 && cNum>5) {
             rank.setText("Gold Member");
             rank.setTextColor(Color.parseColor("#FFDF00"));
         }else {

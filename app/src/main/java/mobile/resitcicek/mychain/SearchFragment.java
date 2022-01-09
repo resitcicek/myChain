@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -81,6 +82,14 @@ public class SearchFragment extends Fragment {
                     SearchAdapter adapter = new SearchAdapter(getActivity(), users);
                     listView.setAdapter(adapter);
 
+                }
+            });
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Object listItem = listView.getItemAtPosition(position);
+                    Fragment fragment = new ProfileFragment(users.get(position));
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
                 }
             });
         // Inflate the layout for this fragment
