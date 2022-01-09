@@ -100,6 +100,7 @@ public class create extends Fragment {
                         long checkRelation = databaseHelper.InsertRelation(MainActivity.loggedUser.getID(), (int)checkinsert);
                         Toast.makeText(getActivity().getApplicationContext(), "Chain created!", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new HomeFragment()).commit();
+                        MainActivity.loggedUser.addChainNum();
 
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(), "Something is wrong.", Toast.LENGTH_SHORT).show();

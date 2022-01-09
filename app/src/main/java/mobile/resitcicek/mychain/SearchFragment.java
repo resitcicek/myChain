@@ -7,6 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +24,8 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ArrayList<User> users = new ArrayList<User>();
+    ListView listView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,7 +65,25 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+        //users = databaseHelper.Search("");
+        View rootView = inflater.inflate(R.layout.fragment_search,
+                container, false);
+            listView = (ListView) rootView.findViewById(R.id.search);
+            EditText searchUser = (EditText) rootView.findViewById(R.id.searchuser);
+            Button searchBtn = (Button) rootView.findViewById(R.id.searchBtn);
+            SearchAdapter adapter = new SearchAdapter(getActivity(), users);
+            listView.setAdapter(adapter);
+            searchBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    users = databaseHelper.Search(searchUser.getText().toString());
+                    SearchAdapter adapter = new SearchAdapter(getActivity(), users);
+                    listView.setAdapter(adapter);
+
+                }
+            });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return rootView;
     }
 }

@@ -80,14 +80,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<User> Search(String search){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ArrayList<User> userList = new ArrayList<User>();
-        Cursor users = sqLiteDatabase.rawQuery("SELECT * FROM user WHERE username LIKE '%'+?+'%'", new String[] {search});
-        User user = new User();
+        Cursor users = sqLiteDatabase.rawQuery("SELECT ID FROM user WHERE username LIKE ?", new String[] {"%"+search+"%"});
+
         while(users.moveToNext()){
+            User user = new User();
             //username TEXT, password TEXT, email TEXT, bio TEXT, tw TEXT, insta TEXT
-            user.setUsername(users.getString(1));
-            user.setInsta(users.getString(6));
+            //user.setChainNum();
+            user = getUser(users.getInt(0));
+            //user.setUsername(users.getString(1));
+            /*user.setInsta(users.getString(6));
             user.setBio(users.getString(4));
-            user.setTwitter(users.getString(5));
+            user.setTwitter(users.getString(5));*/
             userList.add(user);
         }
         return userList;

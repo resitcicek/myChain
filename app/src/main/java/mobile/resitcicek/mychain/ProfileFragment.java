@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,17 +75,22 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         TextView user = (TextView) view.findViewById(R.id.user);
         TextView desc = (TextView) view.findViewById(R.id.desc);
         TextView rank = (TextView) view.findViewById(R.id.rank);
         Button twitterBtn = (Button) view.findViewById(R.id.twitter);
         Button instaBtn = (Button) view.findViewById(R.id.instagram);
         TextView chainNum = (TextView) view.findViewById(R.id.chainNum);
+        ListView listView = (ListView) view.findViewById(R.id.profilelist);
+        ArrayList<Chain> chains = databaseHelper.getChains(userInfo.getID());
+        ChainAdapter adapter = new ChainAdapter(getActivity(), chains);
+        listView.setAdapter(adapter);
         Button edit = (Button) view.findViewById(R.id.editProf);
         if(userInfo.getID() != MainActivity.loggedUser.getID()) edit.setVisibility(view.GONE);
         user.setText(userInfo.getUsername());
         desc.setText(userInfo.getBio());
-        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+
         int cNum = databaseHelper.getChainNumber(userInfo.getID());
         if(cNum<=5) {
             rank.setText("Bronze Member");

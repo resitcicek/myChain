@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_profile:
                         fragment = new ProfileFragment(loggedUser);
                         break;
-
+                    case R.id.navigation_search:
+                        fragment = new SearchFragment();
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
 

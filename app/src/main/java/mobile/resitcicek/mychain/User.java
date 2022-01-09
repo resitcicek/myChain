@@ -7,6 +7,8 @@ public class User {
     private String password;
     private String insta;
     private String twitter;
+    private int chainNum = 0;
+
 
     public String getInsta() {
         return insta;
@@ -73,5 +75,17 @@ public class User {
 
     public void setFollowList(String[] followList) {
         this.followList = followList;
+    }
+
+    public int getChainNum() {
+        return chainNum;
+    }
+
+    public void setChainNum(int cNum) {
+        this.chainNum = cNum;
+    }
+
+    public void addChainNum() {
+        this.chainNum += 1;
     }
 }

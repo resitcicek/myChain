@@ -7,7 +7,7 @@
     tools:context=".SearchFragment">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/searchuser"
         android:layout_width="303dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -29,13 +29,14 @@
         app:iconTint=" #725D6F"
         app:layout_constraintBottom_toTopOf="@+id/_dynamic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/searchuser"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/search"
         android:layout_width="409dp"
         android:layout_height="680dp"
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/searchuser" />
 </androidx.constraintlayout.widget.ConstraintLayout>

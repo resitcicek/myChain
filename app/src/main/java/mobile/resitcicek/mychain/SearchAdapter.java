@@ -2,6 +2,7 @@ package mobile.resitcicek.mychain;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
@@ -39,10 +42,31 @@ public class SearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         View rowView;
         rowView = inflater.inflate(R.layout.searchrow,null);
+        //DatabaseHelper databaseHelper = new DatabaseHelper(this);
         ImageView medal = (ImageView) rowView.findViewById(R.id.searchmedal);
         ImageView profile = (ImageView) rowView.findViewById(R.id.profile);
         TextView username = (TextView) rowView.findViewById(R.id.searchname);
-
-        return null;
+        User user = userList.get(position);
+        username.setText(user.getUsername());
+        int cNum = user.getChainNum();
+        if(cNum<=3) {
+            medal.setImageResource(R.mipmap.bronze_foreground);
+        }
+        else if(cNum>3 && cNum<=5) {//lol
+            medal.setImageResource(R.mipmap.silver_foreground);
+        }
+        else if(cNum<=7 && cNum>5) {
+            medal.setImageResource(R.mipmap.gold_foreground);
+        }else {
+            medal.setImageResource(R.mipmap.plat_foreground);
+        }
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ProfileFragment(user);
+                //getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+            }
+        });
+        return rowView;
     }
 }
