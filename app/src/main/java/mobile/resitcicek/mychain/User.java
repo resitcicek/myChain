@@ -10,6 +10,7 @@ public class User {
     private int chainNum = 0;
 
 
+
     public String getInsta() {
         return insta;
     }
@@ -33,7 +34,6 @@ public class User {
     public void setBio(String bio) {
         this.bio = bio;
     }
-
     private String email;
     private String[] followList;
 
