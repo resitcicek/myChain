@@ -7,6 +7,19 @@
     tools:context=".ChainDetails">
 
     <Button
+        android:id="@+id/uncheck"
+        android:layout_width="134dp"
+        android:layout_height="74dp"
+        android:backgroundTint="#221622"
+        app:icon="@drawable/ic_baseline_close_24"
+        app:iconGravity="textTop"
+        app:iconSize="60sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+    <Button
         android:id="@+id/button2"
         android:layout_width="53dp"
         android:layout_height="53dp"
@@ -33,10 +46,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="413dp"
+        android:layout_width="match_parent"
         android:layout_height="407dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/chdesc"
         app:srcCompat="@mipmap/table_foreground" />
 
     <ImageView
@@ -270,7 +283,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/chdesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -296,7 +309,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/checkbtn"
         android:layout_width="134dp"
         android:layout_height="74dp"
         android:backgroundTint="#221622"

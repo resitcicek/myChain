@@ -14,12 +14,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "mychains5.db";
+    public static final String DATABASE_NAME = "mychains6.db";
     public Cursor randChain;
 
 
@@ -51,22 +52,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete("chain", null, null);
         return true;
     }
-    public void done(int chainID){
+    public boolean done(int chainID){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT ID FROM chainRelation WHERE chainID=? AND userID=?",new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
         cursor.moveToFirst();
         contentValues.put("relationID",cursor.getInt(0));
-        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Calendar cal = Calendar.getInstance();
         String date = df.format(cal.getTime());//Integer.toString(day)+"-"+Integer.toString(month)+"-"+Integer.toString(year);
         contentValues.put("date",date);
+        long result = sqLiteDatabase.insert("isDone", null, contentValues);
+        if(result == -1){
+            return false;
+        }
+        return true;
+    }
+    public boolean uncheck(int chainID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        Cursor rID = sqLiteDatabase.rawQuery("SELECT ID FROM chainRelation WHERE userID=? AND chainID=?",new String[] {Integer.toString(MainActivity.loggedUser.getID()),Integer.toString(chainID)});
+        rID.moveToFirst();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        String date = df.format(cal.getTime());
+        long delete = sqLiteDatabase.delete("isDone","relationID=? and date=?",new String[]{Integer.toString(rID.getInt(0)),date});
+        if(delete == -1){
+            return false;
+        }
+        return true;
     }
     public boolean isDone(int chainID, String Date) throws ParseException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM isDone WHERE chainID=? AND Date=?", new String[] {Integer.toString(chainID), Date});
-        if(cursor.getCount()>0)return true;
+        Cursor rID = sqLiteDatabase.rawQuery("SELECT ID FROM chainRelation WHERE userID=? AND chainID=?",new String[] {Integer.toString(MainActivity.loggedUser.getID()),Integer.toString(chainID)});
+        rID.moveToFirst();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM isDone WHERE relationID=? AND date=?", new String[] {rID.getString(0), Date});
+        if(cursor.getCount()>0) {
+            return true;
+        }
         return false;
     }
     public boolean InsertID(int chainID, int userID){
@@ -84,9 +108,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String getDate(int chainID){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT startDate FROM chainRelation WHERE chainID=? AND userID=?", new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE chainID=? AND userID=?", new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
         cursor.moveToFirst();
-        return cursor.getString(0);
+        return cursor.getString(2);
     }
 
 
@@ -139,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("private", priv);
         contentValues.put("category", category);
         contentValues.put("duration", duration);
-        //contentValues.put("startDate",)
+
         long result = sqLiteDatabase.insert("chain", null, contentValues);
         if(result == -1){
             return -1;
@@ -152,10 +176,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        String date = Integer.toString(day)+"-"+Integer.toString(month)+"-"+Integer.toString(year);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String date = format.format(cal.getTime());
         contentValues.put("userID", userid);
         contentValues.put("chainID", chainid);
         contentValues.put("startDate",date);
@@ -179,6 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             while(chains.moveToNext()){
                 Chain chain = new Chain();
+                chain.setID(chains.getInt(0));
                 chain.setName(chains.getString(1));
                 chain.setDescription(chains.getString(2));
                 chain.setReminder(chains.getInt(3));
