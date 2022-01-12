@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ChainDetails(chains.get(position));
+                Fragment fragment = new Explore();//ChainDetails(chains.get(position));
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
             }
         });

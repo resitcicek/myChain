@@ -2,6 +2,8 @@ package mobile.resitcicek.mychain;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "mychains4.db";
+    public static final String DATABASE_NAME = "mychains5.db";
     public Cursor randChain;
 
 
@@ -55,29 +57,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT ID FROM chainRelation WHERE chainID=? AND userID=?",new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
         cursor.moveToFirst();
         contentValues.put("relationID",cursor.getInt(0));
-        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
         Calendar cal = Calendar.getInstance();
         String date = df.format(cal.getTime());//Integer.toString(day)+"-"+Integer.toString(month)+"-"+Integer.toString(year);
         contentValues.put("date",date);
     }
-    public boolean isDone(int chainID) throws ParseException {
+    public boolean isDone(int chainID, String Date) throws ParseException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ID,startDate FROM chainRelation WHERE chainID=? AND userID=?",new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
-        cursor.moveToFirst();
-        Calendar start = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-        start.setTime(sdf.parse(cursor.getString(1)));
-        Calendar curDate = Calendar.getInstance();
-        ArrayList<Boolean> boolArr = new ArrayList<Boolean>();
-        while(curDate.get(Calendar.MONTH) == start.get(Calendar.MONTH) && curDate.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH)) {
-            Cursor check = sqLiteDatabase.rawQuery("SELECT * FROM isDone WHERE relationID=? AND date=?", new String[]{Integer.toString(cursor.getInt(0)), });
-            if (check.moveToFirst()) {
-                boolArr.add(true);
-            }
-            else boolArr.add(false);
-        }
-
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM isDone WHERE chainID=? AND Date=?", new String[] {Integer.toString(chainID), Date});
+        if(cursor.getCount()>0)return true;
+        return false;
     }
     public boolean InsertID(int chainID, int userID){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -90,7 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
-    //public boolean InsertDone(int chain)
+
+    public String getDate(int chainID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT startDate FROM chainRelation WHERE chainID=? AND userID=?", new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
+        cursor.moveToFirst();
+        return cursor.getString(0);
+    }
 
 
     public boolean Insert(String username, String password, String email){

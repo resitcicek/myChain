@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +31,7 @@ public class ChainDetails extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public Chain chain;
+    public static Chain chain;
     public ChainDetails(Chain chain) {
         this.chain = chain;
         // Required empty public constructor
@@ -44,7 +47,7 @@ public class ChainDetails extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ChainDetails newInstance(String param1, String param2) {
-        ChainDetails fragment = new ChainDetails();
+        ChainDetails fragment = new ChainDetails(chain);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,19 +71,35 @@ public class ChainDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chain_details, container, false);
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         ArrayList<ImageView> imageArr = new ArrayList<ImageView>();
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        String date = Integer.toString(day)+"-"+Integer.toString(month)+"-"+Integer.toString(year);
-        TextView chainName = (TextView) view.findViewById(R.id.cname);
-        chainName.setText(chain.getName());
-        int[] chArr = new int[] {R.id.chain1,R.id.chain2,R.id.chain3,R.id.chain4,R.id.chain5,R.id.chain6,R.id.chain7,R.id.chain8,R.id.chain9,R.id.chain10,R.id.chain11,R.id.chain12,R.id.chain13,R.id.chain14,R.id.chain15,R.id.chain16,R.id.chain17,R.id.chain18,R.id.chain19,R.id.chain20,R.id.chain21,R.id.chain22,R.id.chain23,R.id.chain24,R.id.chain25,R.id.chain26,R.id.chain27,R.id.chain28,R.id.chain29,R.id.chain30};
-        for(int i=0; i<30; i++){
-            imageArr.add(view.findViewById(chArr[i]));
-            databaseHelper.isDone(chain.getID())
+        Calendar currentDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        int[] chainArr = new int[] {R.id.chain1, R.id.chain2, R.id.chain3, R.id.chain4, R.id.chain5, R.id.chain6, R.id.chain7, R.id.chain8, R.id.chain9, R.id.chain10, R.id.chain11, R.id.chain12, R.id.chain13, R.id.chain14, R.id.chain15, R.id.chain16, R.id.chain17, R.id.chain18, R.id.chain19, R.id.chain20, R.id.chain21, R.id.chain22, R.id.chain23, R.id.chain24, R.id.chain25, R.id.chain26, R.id.chain27, R.id.chain28, R.id.chain29, R.id.chain30};
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        try {
+            startDate.setTime(format.parse(databaseHelper.getDate(chain.getID())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int n = 0;
+        while(startDate.get(Calendar.DAY_OF_MONTH)!=currentDate.get(Calendar.DAY_OF_MONTH) && startDate.get(Calendar.MONTH)!=currentDate.get(Calendar.MONTH)){
+            imageArr.add(view.findViewById(chainArr[n]));
+            try {
+                if(!databaseHelper.isDone(chain.getID(),format.format(startDate.getTime()))){
+                    imageArr.get(n).setImageResource(R.mipmap.broken_foreground);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            n++;
+            startDate.add(Calendar.DATE,1);
+        }
+        while(n<30){
+            imageArr.add(view.findViewById(chainArr[n]));
+            imageArr.get(n).setVisibility(View.INVISIBLE);
+            n++;
         }
 
-        return inflater.inflate(R.layout.fragment_chain_details, container, false);
+
+        return view;
     }
 }
