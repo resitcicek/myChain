@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
                 container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.chainlist);
         ChainAdapter adapter = new ChainAdapter(getActivity(), chains);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);//
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
