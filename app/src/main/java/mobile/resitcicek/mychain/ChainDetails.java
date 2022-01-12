@@ -86,7 +86,7 @@ public class ChainDetails extends Fragment {
             try {
                 if(!databaseHelper.isDone(chain.getID(),format.format(startDate.getTime()))){
                     imageArr.get(n).setImageResource(R.mipmap.broken_foreground);
-                }
+                }//
             } catch (ParseException e) {
                 e.printStackTrace();
             }
