@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,12 +78,17 @@ public class EditProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-                databaseHelper.Update(MainActivity.loggedUser.getID(),desc.getText().toString(),tw.getText().toString(),insta.getText().toString());
-                MainActivity.loggedUser.setBio(desc.getText().toString());
-                MainActivity.loggedUser.setTwitter(tw.getText().toString());
-                MainActivity.loggedUser.setInsta(insta.getText().toString());
-                fragment = new ProfileFragment(MainActivity.loggedUser);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+                boolean update = databaseHelper.Update(MainActivity.loggedUser.getID(),desc.getText().toString(),tw.getText().toString(),insta.getText().toString());
+                if(update) {
+                    MainActivity.loggedUser.setBio(desc.getText().toString());
+                    MainActivity.loggedUser.setTwitter(tw.getText().toString());
+                    MainActivity.loggedUser.setInsta(insta.getText().toString());
+                    fragment = new ProfileFragment(MainActivity.loggedUser);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Something is wrong!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

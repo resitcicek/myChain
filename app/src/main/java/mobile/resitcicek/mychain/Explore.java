@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -70,7 +71,16 @@ public class Explore extends Fragment {
             ListView listView = (ListView) rootView.findViewById(R.id.chainlist);
             ExploreAdapter adapter = new ExploreAdapter(getActivity(), chains);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Object listItem = listView.getItemAtPosition(position);
+                    Fragment fragment = new ChainDetails(chains.get(position));
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+                }
+            });
         }
+
         return rootView;
     }
 }

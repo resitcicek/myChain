@@ -36,13 +36,13 @@
         app:layout_constraintTop_toBottomOf="@+id/rowname" />
 
     <TextView
-        android:id="@+id/rowdur"
+        android:id="@+id/rowuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
-        android:drawableLeft="@drawable/ic_baseline_access_time_filled_24"
+        android:drawableLeft="@drawable/ic_baseline_supervised_user_circle_24"
         android:text="Duration"
         android:textColor="#221622"
         android:textSize="10dp"

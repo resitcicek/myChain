@@ -77,75 +77,107 @@ public class ChainDetails extends Fragment {
         Calendar startDate = Calendar.getInstance();
         TextView chName = (TextView) view.findViewById(R.id.cname);
         TextView chDesc = (TextView) view.findViewById(R.id.chdesc);
+        chName.setText(chain.getName());
+        chDesc.setText(chain.getDescription());
         Button check = (Button) view.findViewById(R.id.checkbtn);
         Button uncheck = (Button) view.findViewById(R.id.uncheck);
-        int[] chainArr = new int[] {R.id.chain1, R.id.chain2, R.id.chain3, R.id.chain4, R.id.chain5, R.id.chain6, R.id.chain7, R.id.chain8, R.id.chain9, R.id.chain10, R.id.chain11, R.id.chain12, R.id.chain13, R.id.chain14, R.id.chain15, R.id.chain16, R.id.chain17, R.id.chain18, R.id.chain19, R.id.chain20, R.id.chain21, R.id.chain22, R.id.chain23, R.id.chain24, R.id.chain25, R.id.chain26, R.id.chain27, R.id.chain28, R.id.chain29, R.id.chain30};
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        String today = format.format(currentDate.getTime());
-        try {
-            if(databaseHelper.isDone(chain.getID(),today)){
-                check.setVisibility(View.INVISIBLE);
-            }
-            else{
-                uncheck.setVisibility(View.INVISIBLE);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            startDate.setTime(format.parse(databaseHelper.getDate(chain.getID())));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int n = 0;
-        while(startDate.compareTo(currentDate) <= 0){
-            imageArr.add(view.findViewById(chainArr[n]));
+        Button joinBtn = (Button) view.findViewById(R.id.joinBtn);
+        int[] chainArr = new int[]{R.id.chain1, R.id.chain2, R.id.chain3, R.id.chain4, R.id.chain5, R.id.chain6, R.id.chain7, R.id.chain8, R.id.chain9, R.id.chain10, R.id.chain11, R.id.chain12, R.id.chain13, R.id.chain14, R.id.chain15, R.id.chain16, R.id.chain17, R.id.chain18, R.id.chain19, R.id.chain20, R.id.chain21, R.id.chain22, R.id.chain23, R.id.chain24, R.id.chain25, R.id.chain26, R.id.chain27, R.id.chain28, R.id.chain29, R.id.chain30};
+
+        if(databaseHelper.isInChain(chain.getID())) {
+            joinBtn.setVisibility(View.INVISIBLE);
+                        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            String today = format.format(currentDate.getTime());
             try {
-                if(!databaseHelper.isDone(chain.getID(),format.format(startDate.getTime()))){
-                    imageArr.get(n).setImageResource(R.mipmap.broken_foreground);
+                if (databaseHelper.isDone(chain.getID(), today)) {
+                    check.setVisibility(View.INVISIBLE);
+                } else {
+                    uncheck.setVisibility(View.INVISIBLE);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            n++;
-            startDate.add(Calendar.DATE,1);
+            try {
+                startDate.setTime(format.parse(databaseHelper.getDate(chain.getID())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int n = 0;
+            while (startDate.compareTo(currentDate) <= 0) {
+                imageArr.add(view.findViewById(chainArr[n]));
+                try {
+                    if (!databaseHelper.isDone(chain.getID(), format.format(startDate.getTime()))) {
+                        imageArr.get(n).setImageResource(R.mipmap.broken_foreground);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                n++;
+                startDate.add(Calendar.DATE, 1);
+            }
+            while (n < 30) {
+                imageArr.add(view.findViewById(chainArr[n]));
+                imageArr.get(n).setVisibility(View.INVISIBLE);
+                n++;
+            }
+            check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean insert = databaseHelper.done(chain.getID());
+                    if (insert) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Congrulations!", Toast.LENGTH_SHORT).show();
+                        Fragment fragment = new ChainDetails(chain);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Something is wrong!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+            uncheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean delete = databaseHelper.uncheck(chain.getID());
+                    if (delete) {
+                        Fragment fragment = new ChainDetails(chain);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
+
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Something is wrong!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
         }
-        while(n<30){
-            imageArr.add(view.findViewById(chainArr[n]));
-            imageArr.get(n).setVisibility(View.INVISIBLE);
-            n++;
-        }
-        check.setOnClickListener(new View.OnClickListener() {
+        else{
+            ImageView table = view.findViewById(R.id.imageView2);
+            table.setVisibility(View.INVISIBLE);
+            for(int i=0; i<30; i++){
+                ImageView im = view.findViewById(chainArr[i]);
+                im.setVisibility(View.INVISIBLE);
+            }
+            TextView txt = view.findViewById(R.id.textView4);
+            txt.setVisibility(View.INVISIBLE);
+            check.setVisibility(View.INVISIBLE);
+            uncheck.setVisibility(View.INVISIBLE);
+        joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean insert = databaseHelper.done(chain.getID());
-                if(insert){
-                    Toast.makeText(getActivity().getApplicationContext(), "Congrulations!", Toast.LENGTH_SHORT).show();
+                long checkinsert = databaseHelper.InsertRelation(MainActivity.loggedUser.getID(),chain.getID());
+                if (checkinsert != -1) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Joined the Chain!", Toast.LENGTH_SHORT).show();
                     Fragment fragment = new ChainDetails(chain);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
 
                 }
-                else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Something is wrong!", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Chain relation error!", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-        uncheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean delete = databaseHelper.uncheck(chain.getID());
-                if(delete){
-                    Fragment fragment = new ChainDetails(chain);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
-
-                }
-                else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Something is wrong!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        }
 
         return view;
     }

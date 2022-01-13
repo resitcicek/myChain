@@ -68,6 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+    public boolean isInChain(int chainID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        Cursor rID = sqLiteDatabase.rawQuery("SELECT ID FROM chainRelation WHERE userID=? AND chainID=?",new String[] {Integer.toString(MainActivity.loggedUser.getID()),Integer.toString(chainID)});
+        if(rID.getCount() > 0)return true;
+        return false;
+
+    }
     public boolean uncheck(int chainID){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -112,6 +120,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return cursor.getString(2);
     }
+    public String getUserCount(int chainID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT COUNT(*) FROM chainRelation WHERE chainID=?", new String[] {Integer.toString(chainID)});
+        cursor.moveToFirst();
+        return Integer.toString(cursor.getInt(0));
+    }
 
 
     public boolean Insert(String username, String password, String email){
@@ -130,9 +145,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public void Update(int ID,String bio, String tw, String insta) {
+    public boolean Update(int ID,String bio, String tw, String insta) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("UPDATE user SET bio=?, tw=?, insta=? WHERE ID=?", new String[] {bio,tw,insta,Integer.toString(ID)});
+        ContentValues itemNewValues = new ContentValues();
+        itemNewValues.put("bio",bio);
+        itemNewValues.put("tw",tw);
+        itemNewValues.put("insta",insta);
+        long updateUser = sqLiteDatabase.update("user",itemNewValues,"ID=?",new String[]{Integer.toString(ID)});
+        if(updateUser == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     public ArrayList<User> Search(String search){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -154,15 +179,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userList;
     }
 
-    public long InsertChain(String name, String description, int reminder, int priv, String category, String duration){
+    public long InsertChain(String name, String description, int reminder, String category){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("description", description);
         contentValues.put("reminder", reminder);
-        contentValues.put("private", priv);
         contentValues.put("category", category);
-        contentValues.put("duration", duration);
 
         long result = sqLiteDatabase.insert("chain", null, contentValues);
         if(result == -1){
@@ -229,18 +252,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         int i = 0;
         ArrayList<Chain> listChain = new ArrayList<Chain>();
-
-        while (listChain.stream().count() < 5) {
-
+        ArrayList<Integer> listID = new ArrayList<Integer>();
+        while (listChain.stream().count() < 5 && i < 20) {
             randChain = sqLiteDatabase.rawQuery("SELECT * FROM chain ORDER BY RANDOM() LIMIT 1;", null);
+
             if(randChain.getCount() > 0) {
                 randChain.moveToFirst();
                 Cursor get = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE userID = ? AND chainID=?", new String[]{Integer.toString(userID), Integer.toString(randChain.getInt(0))});
-                if (get.getCount() < 1) {
+                if (get.getCount() < 1 && !listID.contains(randChain.getInt(0))) {
                     //while(getUserChains.moveToNext()){
 
-
+                    listID.add(randChain.getInt(0));
                     Chain chain = new Chain();
+                    chain.setID(randChain.getInt(0));
                     chain.setName(randChain.getString(1));
                     chain.setDescription(randChain.getString(2));
                     chain.setReminder(randChain.getInt(3));
@@ -249,13 +273,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     chain.setDuration(randChain.getString(6));
                     listChain.add(chain);
 
-                    i++;
+
+
                 }
             }
+
             else{
                 break;
             }
-
+            i++;
 
 
 

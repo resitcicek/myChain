@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -77,6 +78,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         TextView user = (TextView) view.findViewById(R.id.user);
+        ImageView medal = (ImageView) view.findViewById(R.id.symbole);
         TextView desc = (TextView) view.findViewById(R.id.desc);
         TextView rank = (TextView) view.findViewById(R.id.rank);
         Button twitterBtn = (Button) view.findViewById(R.id.twitter);
@@ -93,19 +95,22 @@ public class ProfileFragment extends Fragment {
 
         int cNum = databaseHelper.getChainNumber(userInfo.getID());
         if(cNum<=3) {
-            rank.setText("Bronze Member");
-            rank.setTextColor(Color.parseColor("#CD7F32"));
+            rank.setText("Bronze");
+            medal.setImageResource(R.mipmap.bronze_foreground);
+
         }
         else if(cNum>3 && cNum<=5) {//lol
-            rank.setText("Silver Member");
-            rank.setTextColor(Color.parseColor("#999a98"));//
+            rank.setText("Silver");
+            medal.setImageResource(R.mipmap.silver_foreground);
         }
         else if(cNum<=7 && cNum>5) {
-            rank.setText("Gold Member");
-            rank.setTextColor(Color.parseColor("#FFDF00"));
+            rank.setText("Gold");
+            medal.setImageResource(R.mipmap.gold_foreground);
+
         }else {
-            rank.setText("VIP Member");
-            rank.setTextColor(Color.parseColor("#702963"));
+            rank.setText("VIP");
+            medal.setImageResource(R.mipmap.plat_foreground);
+
         }
 
         chainNum.setText(Integer.toString(cNum)+" Chains");

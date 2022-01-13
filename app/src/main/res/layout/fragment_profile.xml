@@ -22,104 +22,120 @@
         android:id="@+id/user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="#221622"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/profile"
-        app:layout_constraintStart_toEndOf="@+id/profile"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile" />
 
     <TextView
         android:id="@+id/desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="14dp"
         android:layout_marginEnd="4dp"
         android:text="TextView"
-        android:textColor="#221622"
-        android:textSize="18sp"
+        android:textColor="#301F30"
+        android:textSize="16sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/desc">
-
-        <TextView
-            android:id="@+id/rank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="#221622"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/chainNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="#221622"
-            android:textSize="20sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/user" />
 
     <Button
         android:id="@+id/twitter"
-        android:layout_width="198dp"
+        android:layout_width="121dp"
         android:layout_height="47dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#1DA1F2"
         android:maxWidth="320dp"
         android:textSize="14sp"
         app:icon="@drawable/ic_twitter"
         app:iconGravity="top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toEndOf="@+id/instagram"
+        app:layout_constraintTop_toBottomOf="@+id/chainNum" />
 
     <Button
         android:id="@+id/instagram"
-        android:layout_width="198dp"
+        android:layout_width="121dp"
         android:layout_height="47dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:backgroundTint="#E1306C"
         app:icon="@drawable/ic_instagram"
         app:iconGravity="top"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toBottomOf="@+id/rank" />
 
     <Button
         android:id="@+id/editProf"
-        android:layout_width="59dp"
-        android:layout_height="51dp"
+        android:layout_width="356dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#221622"
-        app:icon="@drawable/ic_baseline_edit_24"
+        android:text="Edit Profile"
+        android:textSize="11sp"
         app:iconGravity="top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+    <ImageView
+        android:id="@+id/symbole"
+        android:layout_width="35dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/bronze_foreground"
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toTopOf="@+id/profile" />
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="85dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:text="TextView"
+        android:textAlignment="textStart"
+        android:textColor="#221622"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/symbole"
+        app:layout_constraintTop_toTopOf="@+id/profile" />
+
+    <TextView
+        android:id="@+id/chainNum"
+        android:layout_width="92dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#221622"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rank"
+        app:layout_constraintTop_toTopOf="@+id/profile" />
 
     <ListView
         android:id="@+id/profilelist"
-        android:layout_width="413dp"
-        android:layout_height="438dp"
+        android:layout_width="402dp"
+        android:layout_height="429dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/twitter" />
+        app:layout_constraintTop_toBottomOf="@+id/editProf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

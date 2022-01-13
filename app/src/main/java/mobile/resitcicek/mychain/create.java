@@ -80,22 +80,19 @@ public class create extends Fragment {
         chainname = rootView.findViewById(R.id.chainname);
         description = rootView.findViewById(R.id.description);
         reminder = rootView.findViewById(R.id.reminder);
-        priv = rootView.findViewById(R.id.priv);
         submit = (Button) rootView.findViewById(R.id.createbtn);
         String[] categories ={"Select a category","Hobby","Sport","Education","Behavior"};
-        String[] durations ={"Select duration","7 Days","30 Days","3 Months","6 Months", "1 Year"};
         Spinner category = (Spinner) rootView.findViewById(R.id.category);
-        Spinner duration = (Spinner) rootView.findViewById(R.id.duration);
         submit.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (chainname.getText().length() > 0 && description.getText().length() > 0 && category.getSelectedItem().toString() != "Select a category" && duration.getSelectedItem().toString() != "Select duration") {
+                if (chainname.getText().length() > 0 && description.getText().length() > 0 && category.getSelectedItem().toString() != "Select a category") {
 
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-                    long checkinsert = databaseHelper.InsertChain(chainname.getText().toString(), description.getText().toString(), reminder.isChecked() ? 1:0,  priv.isChecked() ? 1:0, category.getSelectedItem().toString(), duration.getSelectedItem().toString());
+                    long checkinsert = databaseHelper.InsertChain(chainname.getText().toString(), description.getText().toString(), reminder.isChecked() ? 1:0, category.getSelectedItem().toString());
                     if (checkinsert != -1) {
                         long checkRelation = databaseHelper.InsertRelation(MainActivity.loggedUser.getID(), (int)checkinsert);
                         if (checkinsert != -1) {
