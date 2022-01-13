@@ -47,33 +47,6 @@
         app:layout_constraintTop_toBottomOf="@+id/user" />
 
     <Button
-        android:id="@+id/twitter"
-        android:layout_width="121dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#1DA1F2"
-        android:maxWidth="320dp"
-        android:textSize="14sp"
-        app:icon="@drawable/ic_twitter"
-        app:iconGravity="top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/instagram"
-        app:layout_constraintTop_toBottomOf="@+id/chainNum" />
-
-    <Button
-        android:id="@+id/instagram"
-        android:layout_width="121dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:backgroundTint="#E1306C"
-        app:icon="@drawable/ic_instagram"
-        app:iconGravity="top"
-        app:layout_constraintStart_toEndOf="@+id/profile"
-        app:layout_constraintTop_toBottomOf="@+id/rank" />
-
-    <Button
         android:id="@+id/editProf"
         android:layout_width="356dp"
         android:layout_height="37dp"
@@ -100,7 +73,7 @@
         android:id="@+id/rank"
         android:layout_width="85dp"
         android:layout_height="33dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:text="TextView"
@@ -137,5 +110,45 @@
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editProf" />
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="4dp"
+        android:divider="@drawable/empty_tall_divider"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toBottomOf="@+id/rank">
+
+        <Button
+            android:id="@+id/instagram"
+            android:layout_width="0dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="#E1306C"
+            app:icon="@drawable/ic_instagram"
+            app:iconGravity="top" />
+
+        <Button
+            android:id="@+id/twitter"
+            android:layout_width="0dp"
+            android:layout_height="47dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#1DA1F2"
+            android:maxWidth="320dp"
+            android:textSize="14sp"
+            app:icon="@drawable/ic_twitter"
+            app:iconGravity="top" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

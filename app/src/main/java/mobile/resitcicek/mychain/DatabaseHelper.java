@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM chainRelation WHERE chainID=? AND userID=?", new String[] {Integer.toString(chainID),Integer.toString(MainActivity.loggedUser.getID())});
         cursor.moveToFirst();
-        return cursor.getString(2);
+        return cursor.getString(3);
     }
     public String getUserCount(int chainID){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();

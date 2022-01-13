@@ -102,6 +102,7 @@ public class ChainDetails extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
             int n = 0;
             while (startDate.compareTo(currentDate) <= 0) {
                 imageArr.add(view.findViewById(chainArr[n]));
