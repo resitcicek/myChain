@@ -34,6 +34,7 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/myChain/app/src/main/res/mipmap-anydpi-v26/default.xml" value="0.296875" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/drawable/empty_tall_divider.xml" value="0.3828125" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22395833333333334" />
+        <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/activity_bottom_navigation.xml" value="0.209375" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/activity_signup.xml" value="0.36666666666666664" />
@@ -42,16 +43,17 @@
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_edit_profile.xml" value="0.5474339035769828" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_explore.xml" value="0.2390625" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_home.xml" value="0.2390625" />
-        <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_profile.xml" value="0.5" />
+        <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/row.xml" value="0.33" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/layout/searchrow.xml" value="0.33" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22395833333333334" />
+        <entry key="..\:/Users/brktn/AndroidStudioProjects/myChain0/app/src/main/res/layout/fragment_profile.xml" value="0.18958333333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
